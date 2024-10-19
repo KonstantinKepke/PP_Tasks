@@ -20,6 +20,7 @@ void f(std::stop_source ss, int value)
     std::cout << "\nstop req = " << st.stop_requested() << std::endl;
 }
  
+ // ?? if we don't pass std::stop_token or std::stop_state so we couldn't process and get stop token insside threads
 void f2( std::stop_token st, int value)
 {
     Greeting G("f2()", 10);  
