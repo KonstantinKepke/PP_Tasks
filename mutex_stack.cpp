@@ -40,12 +40,29 @@ public:
 // thread_safe_stack::~thread_safe_stack(){
 // }
 
+//template<typename T>
+// void writer(std::stop_token st, thread_safe_stack<T>& stack)
+// {
+//     Greeting G("Writer", 3);
+//     int value=0;
+//     while (!st.stop_requested() && value <34 )
+//     {
+//         std::cout << value++ << " " << std::endl;
+//         std::cout << "push to stack \n";
+//         stack.push_stack(value);
+//         std::this_thread::sleep_for(200ms);      
+//         value++;
+//     }
+//     std::cout << "\nstop req = " << st.stop_requested() << std::endl;
+
+// }
+
 template<typename T>
-void writer(std::stop_token st, thread_safe_stack<T>& stack)
+void writer(thread_safe_stack<T>& stack)
 {
     Greeting G("Writer", 3);
     int value=0;
-    while (!st.stop_requested() && value <34 )
+    while (value <34 )
     {
         std::cout << value++ << " " << std::endl;
         std::cout << "push to stack \n";
@@ -53,24 +70,23 @@ void writer(std::stop_token st, thread_safe_stack<T>& stack)
         std::this_thread::sleep_for(200ms);      
         value++;
     }
-    std::cout << "\nstop req = " << st.stop_requested() << std::endl;
-
+   
 }
 
-template<typename T>
-void reader(std::stop_token st, thread_safe_stack<T> stack)
-{
-    Greeting G("Reader", 5);
-    int value = 1;
-    while (!st.stop_requested() && value <34 )
-    {
-        std::cout << "get from to stack " << stack.pull_stack();
+// template<typename T>
+// void reader(std::stop_token st, thread_safe_stack<T>& stack)
+// {
+//     Greeting G("Reader", 5);
+//     int value = 1;
+//     while (!st.stop_requested() && value <34 )
+//     {
+//         std::cout << "get from to stack " << stack.pull_stack();
         
-        std::this_thread::sleep_for(200ms);      
-    }
-    std::cout << "\nstop req = " << st.stop_requested() << std::endl;
+//         std::this_thread::sleep_for(200ms);      
+//     }
+//     std::cout << "\nstop req = " << st.stop_requested() << std::endl;
 
-}
+// }
 
 int main(){
     Greeting G("try_lock_main()");
@@ -88,8 +104,9 @@ int main(){
     std::cout << "upper = "<<  stack.get_upper() << std::endl;
     // std::mutex m1, m2, m3;
 
-    std::thread th1(&writer, std::ref(stack));
-    std::thread th2(&reader, std::ref(stack));
+    writer(&stack);
+    //std::thread th1(&writer, stack);
+    //std::thread th2(&reader, stack);
     
     // std::thread th3(&fCh, std::ref(m1), 'c');
 
