@@ -1,9 +1,7 @@
 #include <stdio.h>
-
 #include <thread>
 #include <chrono>
 #include <vector>
-//#include <tuple>
 #include <iostream>
 #include <fstream>
 #include <unistd.h>
