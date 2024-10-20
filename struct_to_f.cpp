@@ -6,13 +6,12 @@
  
 using namespace std::literals::chrono_literals;
 
-
 template<typename T>
 class thread_safe_stack
 {
 private:
     std::vector<T> v;
-    std::mutex m;
+    //std::mutex m;
 public:
     // thread_safe_stack(/* args */);
     // ~thread_safe_stack();
@@ -31,7 +30,7 @@ public:
 
     T get_upper(){ return v.back(); }
 
-    void print_stack() { for(auto &el: v) { std::cout << el << std::endl;  } }
+    void print_stack() { std::cout << "Stack: \t"; for(auto &el: v) { std::cout << el << "\t";  }  std::cout << " End stack\n";}
 };
 
 template<typename T>
@@ -39,33 +38,37 @@ void writer(thread_safe_stack<T>& stack_th)
 {
     Greeting G("Writer", 3);
     int value=0;
-    while (value <34 )
+    while (value <8 )
     {
-        std::cout << value++ << " " << std::endl;
-        std::cout << "push to stack_th \n";
+        std::cout << "push: " << value << "\t";
         stack_th.push_stack(value);
-        std::this_thread::sleep_for(200ms);      
         value++;
+        std::this_thread::sleep_for(200ms); 
     }
-   
+}
+
+template<typename T>
+void reader(thread_safe_stack<T>& stack_th)
+{
+    Greeting G("Reader", 3);
+    while (!stack_th.empty() )
+    {
+        std::cout << stack_th.pull_stack() <<  "\t";
+        std::this_thread::sleep_for(200ms); 
+    }
 }
 
 int main(){
     Greeting G("try_lock_main()");
 
-    thread_safe_stack<int> stack_th;
-    for (int i=3; i<9; ++i){
-        stack_th.push_stack(i);
-    }
+    thread_safe_stack<int> stack_th, stack_th2;
+    stack_th.print_stack();
+    writer(stack_th);
+    stack_th2=stack_th;
+    stack_th.print_stack();
+    reader(stack_th);
     stack_th.print_stack();
 
-    int upper = stack_th.get_upper();
-    std::cout << "upper = "<< upper << std::endl;
-    std::cout << "upper = "<<  stack_th.get_upper() << std::endl;
-    std::cout << "upper = "<<  stack_th.pull_stack() << std::endl;
-    std::cout << "upper = "<<  stack_th.get_upper() << std::endl;
-    // std::mutex m1, m2, m3;
-
-    writer(&stack_th);
-
+    stack_th2.print_stack();
+    
 }

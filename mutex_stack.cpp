@@ -1,3 +1,4 @@
+
 //
 // try_lock_main()
 //
@@ -6,13 +7,12 @@
  
 using namespace std::literals::chrono_literals;
 
-
 template<typename T>
 class thread_safe_stack
 {
 private:
     std::vector<T> v;
-    std::mutex m;
+    //std::mutex m;
 public:
     // thread_safe_stack(/* args */);
     // ~thread_safe_stack();
@@ -31,95 +31,51 @@ public:
 
     T get_upper(){ return v.back(); }
 
-    void print_stack() { for(auto &el: v) { std::cout << el << std::endl;  } }
+    void print_stack() { std::cout << "Stack: \t"; for(auto &el: v) { std::cout << el << "\t";  }  std::cout << " End stack\n";}
 };
 
-// thread_safe_stack::thread_safe_stack(/* args */){
-// }
-
-// thread_safe_stack::~thread_safe_stack(){
-// }
-
-//template<typename T>
-// void writer(std::stop_token st, thread_safe_stack<T>& stack_th)
-// {
-//     Greeting G("Writer", 3);
-//     int value=0;
-//     while (!st.stop_requested() && value <34 )
-//     {
-//         std::cout << value++ << " " << std::endl;
-//         std::cout << "push to stack_th \n";
-//         stack_th.push_stack(value);
-//         std::this_thread::sleep_for(200ms);      
-//         value++;
-//     }
-//     std::cout << "\nstop req = " << st.stop_requested() << std::endl;
-
-// }
-
-template<class T>
+template<typename T>
 void writer(thread_safe_stack<T>& stack_th)
 {
+    std::cout<< "WRITER..";
     Greeting G("Writer", 3);
     int value=0;
-    while (value <34 )
+    while (value <8 )
     {
-        std::cout << value++ << " " << std::endl;
-        std::cout << "push to stack_th \n";
+        std::cout << "push: " << value << "\t";
         stack_th.push_stack(value);
-        std::this_thread::sleep_for(200ms);      
         value++;
+        std::this_thread::sleep_for(200ms); 
     }
-   
 }
 
-// template<typename T>
-// void reader(std::stop_token st, thread_safe_stack<T>& stack_th)
-// {
-//     Greeting G("Reader", 5);
-//     int value = 1;
-//     while (!st.stop_requested() && value <34 )
-//     {
-//         std::cout << "get from to stack_th " << stack_th.pull_stack();
-        
-//         std::this_thread::sleep_for(200ms);      
-//     }
-//     std::cout << "\nstop req = " << st.stop_requested() << std::endl;
-
-// }
+template<typename T>
+void reader(thread_safe_stack<T>& stack_th)
+{
+    Greeting G("Reader", 3);
+    while (!stack_th.empty() )
+    {
+        std::cout << stack_th.pull_stack() <<  "\t";
+        std::this_thread::sleep_for(200ms); 
+    }
+}
 
 int main(){
-    Greeting G("try_lock_main()");
+    Greeting G("MUTEX STACK");
 
     thread_safe_stack<int> stack_th;
-    for (int i=3; i<9; ++i){
-        stack_th.push_stack(i);
-    }
+
     stack_th.print_stack();
 
-    int upper = stack_th.get_upper();
-    std::cout << "upper = "<< upper << std::endl;
-    std::cout << "upper = "<<  stack_th.get_upper() << std::endl;
-    std::cout << "upper = "<<  stack_th.pull_stack() << std::endl;
-    std::cout << "upper = "<<  stack_th.get_upper() << std::endl;
-    // std::mutex m1, m2, m3;
+    std::jthread th_writer(thread_safe_stack<int> &writer, thread_safe_stack<int> stack_th);
+    //writer(stack_th);
 
-    writer(&stack_th);
-    //std::thread th1(&writer, stack_th);
-    //std::thread th2(&reader, stack_th);
-    
-    // std::thread th3(&fCh, std::ref(m1), 'c');
 
-    std::this_thread::sleep_for(300ms); //чтобы хотя бы один поток успел захватить мьютекс
+    stack_th.print_stack();
 
-    // while (m1.try_lock() == false) {
-    //     std::this_thread::sleep_for(5ms); //чтобы хотя бы один поток успел захватить мьютекс
-    //     std::cout << 'Q'; 
-    // }
-
-    // std::cout << std::endl<<"All mutexes captured!\n";
-
-    // th1.join();
-    // th2.join();
-    // th3.join();
+    //th_writer.join();
+    //reader(stack_th);
+    //stack_th.print_stack();
 }
+
+ 

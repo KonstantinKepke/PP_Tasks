@@ -11,13 +11,13 @@ else
     echo "Input param=$1"
     #file=( $( $1 | sed "s/.cpp//g")) ;
     file="${1%.*}"
-    file=$file.bin
+    file="./out/$file.bin"
 fi
 echo -e "Try to make bin $file"
-c++ --std=c++20 -o $file $1
+c++ --std=c++20 -o $file $1 -O0
 if [ $? -eq 0 ] ; then
     echo -e "\033[92mMaking Build successfully - $file. Starting: \033[37m\n";
-    ./$file
+    $file
 else
     echo -e "\033[31mMaking Build - Error.\033[37m\n";
     exit 1
