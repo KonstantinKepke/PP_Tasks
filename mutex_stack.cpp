@@ -12,7 +12,7 @@ class thread_safe_stack
 {
 private:
     std::vector<T> v;
-    std::mutex m;
+    //std::mutex m;
 public:
     // thread_safe_stack(/* args */);
     // ~thread_safe_stack();
@@ -37,6 +37,7 @@ public:
 template<typename T>
 void writer(thread_safe_stack<T>& stack_th)
 {
+    std::cout<< "WRITER..";
     Greeting G("Writer", 3);
     int value=0;
     while (value <8 )
@@ -60,15 +61,21 @@ void reader(thread_safe_stack<T>& stack_th)
 }
 
 int main(){
-    Greeting G("try_lock_main()");
+    Greeting G("MUTEX STACK");
 
     thread_safe_stack<int> stack_th;
+
     stack_th.print_stack();
-    writer(stack_th);
+
+    std::jthread th_writer(thread_safe_stack<int> &writer, thread_safe_stack<int> stack_th);
+    //writer(stack_th);
 
 
     stack_th.print_stack();
+
+    //th_writer.join();
     //reader(stack_th);
     //stack_th.print_stack();
+}
 
  

@@ -20,7 +20,7 @@ void f(std::stop_token st, int value)
 
 int main()
 {
-    Greeting G("KJH");
+    Greeting G("KM");
     
     std::jthread th(f, 5); // prints 5 6 7 8... for approximately 3 seconds
     std::this_thread::sleep_for(1s);
@@ -28,5 +28,6 @@ int main()
     th.request_stop(); //OK
 
     std::this_thread::sleep_for(2s);
+    return 0;
     
 }
