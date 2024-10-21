@@ -23,10 +23,22 @@ void writer(thread_safe_stack<T>& stack_th)
     std:: cout << stack_th.j << std::endl;
 }
 
+template<class T>
+void wr_int(int& i)
+{
+    Greeting G("Wr INT", 3);   
+    std:: cout << i << std::endl;
+}
+
+
 int main(){
     Greeting G("try_lock_main()");
 
     thread_safe_stack<int> stack_th;
+
+    int to_f = 9;
+    std::thread th1 (&wr_int <decltype(&to_f)>, std::ref(to_f));
+    th1.join();
     writer(stack_th);
 
 }
