@@ -8,6 +8,9 @@ if [ $# -eq 0 ] ; then
     # 1
     # 2
     # 3
+    # a
+    # b
+    # c
     echo "Usage: $0 [tasc_to_compile_and_run.cpp]"
     exit 1
 else
