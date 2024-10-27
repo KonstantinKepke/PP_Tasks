@@ -5,6 +5,9 @@
 #file="main.cpp"
 
 if [ $# -eq 0 ] ; then
+    # 1
+    # 2
+    # 3
     # a
     # b
     # c
