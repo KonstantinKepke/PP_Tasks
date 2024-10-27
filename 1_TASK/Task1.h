@@ -29,23 +29,32 @@ class ProgDeclare{
 public:
     ProgDeclare(std::string Mess):prog_info(Mess){
         start = std::chrono::steady_clock::now();
+#ifndef __APPLE__
         pid = gettid();
         cout << "\nStart _"<< prog_info << "_ with pid = "<< pid <<std::endl;
+#endif
     }
     ~ProgDeclare(){
         end = std::chrono::steady_clock::now();
         std::chrono::duration<double/*,std::ratio<1,1>*/> elapsed = end - start;
         std::chrono::microseconds mc3 = std::chrono::duration_cast<std::chrono::microseconds>(elapsed);
+#ifndef __APPLE__
         cout << "\nEnd _"<< prog_info << "_ with pid = "<< pid << " Duration: " << mc3.count() << " microseconds" << std::endl;
+#else
+        cout << "\nEnd _"<< prog_info << " Duration: " << mc3.count() << " microseconds" << std::endl;
+#endif
     }
 };
 
 
 void ConvertFile (string file_in, string file_out) {
    
+#ifndef __APPLE__
     pid_t pid = gettid();
     cout << "\tThread № "<< pid <<", with "<< file_in << " and "<< file_out << "\tSTARTED!" << endl; 
-    
+#else
+    cout << "\tThread № macos --- " << file_in << " and "<< file_out << "\tSTARTED!" << endl; 
+#endif
     ifstream inputFile (file_in);
     ofstream outputFile (file_out);
     
