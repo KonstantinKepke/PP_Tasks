@@ -4,13 +4,11 @@
 
 #file="main.cpp"
 
-if [ $# -eq 0 ] ; then
+clear
+echo -e  "rm -rf ./out/*"
+rm -rf ./out/*
 
-    # a
-    # 1
-    # b
-    # 2
-    # c
+if [ $# -eq 0 ] ; then
     echo "Usage: $0 [tasc_to_compile_and_run.cpp]"
     exit 1
 else
@@ -19,8 +17,10 @@ else
     file="${1%.*}"
     file="./out/$file.bin"
 fi
+
 echo -e "Try to make bin $file"
 c++ --std=c++20 -o $file $1 -O0
+
 if [ $? -eq 0 ] ; then
     echo -e "\033[92mMaking Build successfully - $file. Starting: \033[37m\n";
     $file
