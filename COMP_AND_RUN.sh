@@ -5,6 +5,9 @@
 #file="main.cpp"
 
 if [ $# -eq 0 ] ; then
+    # a
+    # b
+    # c
     echo "Usage: $0 [tasc_to_compile_and_run.cpp]"
     exit 1
 else
