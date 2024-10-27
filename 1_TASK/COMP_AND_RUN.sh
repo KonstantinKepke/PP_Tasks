@@ -4,6 +4,11 @@
 
 #file="main.cpp"
 
+clear
+echo -e  "rm -rf ./out/*"
+rm -rf ./out/*
+echo -e "rm -rf ./out_txt/*"
+rm -rf ./out_txt/*
 if [ $# -eq 0 ] ; then
     echo "Usage: $0 [tasc_to_compile_and_run.cpp]"
     exit 1
