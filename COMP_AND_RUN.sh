@@ -5,11 +5,11 @@
 #file="main.cpp"
 
 if [ $# -eq 0 ] ; then
-    # 1
-    # 2
-    # 3
+
     # a
+    # 1
     # b
+    # 2
     # c
     echo "Usage: $0 [tasc_to_compile_and_run.cpp]"
     exit 1
