@@ -7,7 +7,7 @@
  
 using namespace std::literals::chrono_literals;
 
-class thread_safe_stack
+class ThreadSafeStack
 {
 private:
     std::vector<int> v;
@@ -41,7 +41,7 @@ public:
 };
 
 
-void writer(thread_safe_stack& stack_th, string name)
+void writer(ThreadSafeStack& stack_th, string name)
 {
     Greeting G("WRITER.."+name, 3);
     int value=0;
@@ -54,7 +54,7 @@ void writer(thread_safe_stack& stack_th, string name)
     }
 }
 
-void reader(thread_safe_stack& stack_th, string name)
+void reader(ThreadSafeStack& stack_th, string name)
 {
     Greeting G("Reader.."+name, 3);
     while (!stack_th.empty() )
@@ -68,7 +68,7 @@ void reader(thread_safe_stack& stack_th, string name)
 int main(){
     Greeting G("MUTEX STACK");
 
-    thread_safe_stack stack_th;
+    ThreadSafeStack stack_th;
 
     stack_th.print_stack();
 
