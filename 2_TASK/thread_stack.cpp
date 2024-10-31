@@ -3,9 +3,12 @@
 // thread_stack
 //
 
-#include "Task2.h"
 #include "../include/common_pp.hpp"
- 
+
+std::vector<std::exception_ptr> g_exceptions;
+
+#define STACK_NUM 15
+
 using namespace std::literals::chrono_literals;
 
 class thread_safe_stack
@@ -17,17 +20,20 @@ public:
     int push_stack(int el, string name){
         m.lock();
         v.push_back(el);
-        std::cout << name << " -> a psh: \t";    print_stack();
         m.unlock();
+        std::cout << name << " -> a psh: \t";    print_stack();
         return v.size();
     };
 
+// получение значения последнего элемента - T& back();  
+// и удаление последнего элемента – void pop_back();
+// COMBINE .back() and pop_back() under one mutex
     int pull_stack(string name){
         m.lock();
         int el=v.back();
-        std::cout << name << "-> b pop: \t";     print_stack();
         v.pop_back();
         m.unlock();
+        std::cout << name << "-> b pop: \t";     print_stack();
         return el;
     };
 
@@ -35,10 +41,16 @@ public:
         m.lock();
         bool res=v.empty();
         m.unlock();
-        return v.empty(); 
+        return res; 
     }
-    int get_upper(){ return v.back(); }
-    void print_stack() { std::cout << "Stack: \t"; for(auto &el: v) { std::cout << el << "\t";  }  std::cout << " \n";}
+
+    int get_upper() { return v.back(); }
+
+    void print_stack() { 
+        std::cout << "Stack: \t"; 
+        for(auto &el: v) { std::cout << el << "\t";  }  
+        std::cout << " \n";
+    }
 };
 
 
@@ -46,10 +58,8 @@ void writer(thread_safe_stack& stack_th, string name)
 {
     Greeting G("WRITER.."+name, 3);
 
-    fmt::print(fg(fmt::color::crimson) | fmt::emphasis::bold,
-             "Hello, {}!\n", "world");
     int value=0;
-    while (value <11 )
+    while (value < STACK_NUM )
     {
         //std::cout << value<< "\t";
         stack_th.push_stack(value, name);
@@ -77,6 +87,7 @@ int main(){
     stack_th.print_stack();
 
     std::thread th_writer1(&writer, std::ref(stack_th), "Wr1");
+    
     std::thread th_reader1(&reader, std::ref(stack_th), "Rdr1");
     //std::thread th_writer2(&writer, std::ref(stack_th), "Wr2");
     std::thread th_reader2(&reader, std::ref(stack_th), "Rdr2");

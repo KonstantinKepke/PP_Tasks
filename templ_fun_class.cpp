@@ -17,7 +17,6 @@ public:
 };
 
 
-
 template<class T>
 void wr_int(T i)
 {
