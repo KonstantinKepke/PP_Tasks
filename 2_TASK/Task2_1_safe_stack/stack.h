@@ -2,7 +2,7 @@
 
 using namespace std::literals::chrono_literals;
 
-#define STACK_NUM 15
+#define STACK_NUM 10
 
 class ThreadSafeStack
 {
@@ -36,12 +36,21 @@ public:
         ThreadSafeStack temp;
         m.lock();
         std::copy(tSS.v.begin(), tSS.v.end(), temp.v.begin());
-        numOfStack++;
+        //numOfStack++;
         std::cout << " copy(=) csrt(& tSS) ThreadSafeStack ID = " << stackID << std::endl;
         m.unlock();
         return temp;
     };
 
+
+    bool swap(ThreadSafeStack& tSS1, ThreadSafeStack& tSS2)
+    {
+        m.lock();
+        std::swap(tSS1, tSS2);
+        std::cout << " swap () ThreadSafeStack ID = " << stackID << std::endl;
+        m.unlock();
+        return true;
+    };
 
     ~ThreadSafeStack();
     void printStackId();

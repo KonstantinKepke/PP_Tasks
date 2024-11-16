@@ -15,8 +15,9 @@ int main()
     ThreadSafeStack stack_th1;
     stack_th1.printStackId();
 
-    // ThreadSafeStack stack_th2(stack_th1);
-    // stack_th2.printStackId();
+    ThreadSafeStack stack_th2;
+    stack_th2 = stack_th1;
+    stack_th2.printStackId();
 
     // ThreadSafeStack stack_th3(stack_th2);
     // stack_th3.printStackId();
@@ -26,17 +27,17 @@ int main()
 
     //stack_th.print_stack();
 
-    std::thread th_writer1(&writer, std::ref(stack_th1), "Wr1");
+    // std::thread th_writer1(&writer, std::ref(stack_th1), "Wr1");
 
-    std::thread th_reader1(&reader, std::ref(stack_th1), "Rdr1");
-    // std::thread th_writer2(&writer, std::ref(stack_th), "Wr2");
-    std::thread th_reader2(&reader, std::ref(stack_th1), "Rdr2");
+    // std::thread th_reader1(&reader, std::ref(stack_th1), "Rdr1");
+    // // std::thread th_writer2(&writer, std::ref(stack_th), "Wr2");
+    // std::thread th_reader2(&reader, std::ref(stack_th1), "Rdr2");
 
-    th_writer1.join();
-    // th_writer2.join();
-    th_reader1.join();
+    // th_writer1.join();
+    // // th_writer2.join();
+    // th_reader1.join();
 
-    th_reader2.join();
+    // th_reader2.join();
 
-    stack_th1.print_stack();
+    //stack_th1.print_stack();
 }

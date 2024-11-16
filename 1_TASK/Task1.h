@@ -63,13 +63,13 @@ void ConvertFile (string file_in, string file_out) {
         exit(1);
     }
 
-    // string line; 
-    // while (getline(inputFile, line)) {
-    //     outputFile << ApperLine(line) << endl;
-    // }
+    string line; 
+    while (getline(inputFile, line)) {
+        outputFile << ApperLine(line) << endl;
+    }
     // //std::transform(istreambuf_iterator<char> (inputFile), istreambuf_iterator<char> (), ostreambuf_iterator<char> (outputFile), std::toupper);
     //??
-    std::transform(istreambuf_iterator<char> (inputFile), istreambuf_iterator<char> (inputFile), ostreambuf_iterator<char> (outputFile), std::toupper);
+   // std::transform(istreambuf_iterator<char> (inputFile), istreambuf_iterator<char> (inputFile), ostreambuf_iterator<char> (outputFile), std::toupper);
 
     inputFile.close();
     outputFile.close();

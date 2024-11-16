@@ -26,7 +26,7 @@ void threadFunc(std::stop_token st, int thread_num, int num_to_sub, int timeout)
     while (!st.stop_requested())
     {
         std::cout << "current summ : " << current_sum << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds((10)));
+        std::this_thread::sleep_for(std::chrono::milliseconds((100)));
         m.lock();
         current_sum -= num_to_sub;
         if (current_sum > 0)

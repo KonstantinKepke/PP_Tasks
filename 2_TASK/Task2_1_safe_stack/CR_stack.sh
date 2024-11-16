@@ -4,7 +4,7 @@ set -x  # uncomment this line to debug (bash will print all commands it executes
 
 #file="main.cpp"
 
-clear
+#clear
 echo -e  "rm -rf ./out/*"
 rm -rf ./out/*
 

@@ -9,20 +9,10 @@ ThreadSafeStack::ThreadSafeStack(ThreadSafeStack &tSS)
     m.unlock();
 };
 
-// ThreadSafeStack operator=(ThreadSafeStack &tSS)
-// {
-//     ThreadSafeStack temp;
-//     m.lock();
-//     std::copy(tSS.v.begin(), tSS.v.end(), temp.v.begin());
-//     numOfStack++;
-//     std::cout << " copy(=) csrt(& tSS) ThreadSafeStack ID = " << stackID << std::endl;
-//     m.unlock();
-//     return temp;
-// };
-
 ThreadSafeStack::~ThreadSafeStack()
 {
     std::cout << " DSTR() ThreadSafeStack ID = " << stackID << std::endl;
+    numOfStack++;
 };
 
 void ThreadSafeStack::printStackId()
