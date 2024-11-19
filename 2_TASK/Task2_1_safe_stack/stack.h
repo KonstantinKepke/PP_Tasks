@@ -46,7 +46,7 @@ public:
     bool swap(ThreadSafeStack& tSS1, ThreadSafeStack& tSS2)
     {
         m.lock();
-        std::swap(tSS1, tSS2);
+        //std::swap(tSS1, tSS2);
         std::cout << " swap () ThreadSafeStack ID = " << stackID << std::endl;
         m.unlock();
         return true;

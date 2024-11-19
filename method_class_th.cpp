@@ -25,7 +25,6 @@ public:
     }
 };
 
-
 int main()
 {
     Greeting G("Method of class in thread");
